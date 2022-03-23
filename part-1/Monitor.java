@@ -24,11 +24,11 @@ public class Monitor {
     public V2d computeTotalForceOnBody(BodyThread bt) {
         V2d totalForce = new V2d(0, 0);
         try {
-            while (countForce > 0) {
+            while (countForce == 0) {
                 conditionForce.await();
             }
 
-            countForce++;
+            countForce+=1;
             for (int i = 0; i < this.bodyThreads.size(); i++) {
                 BodyThread other = bodyThreads.get(i);
                 if (!bt.equals(other)) {
@@ -55,10 +55,10 @@ public class Monitor {
 
     public void checkAndSolveBoundaryCollision(BodyThread bt) {
         try {
-            while (countBoundary > 1) {
+            while (countBoundary == 1) {
                 conditionBoundary.await();
             }
-            countBoundary++;
+            countBoundary+=1;
             double x = bt.getBody().getPos().getX();
             double y = bt.getBody().getPos().getY();
             if (x > this.boundary.getX_1()) {
