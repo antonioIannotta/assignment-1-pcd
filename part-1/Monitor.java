@@ -24,7 +24,7 @@ public class Monitor {
     public V2d computeTotalForceOnBody(BodyThread bt) {
         V2d totalForce = new V2d(0, 0);
         try {
-            while (countForce == 0) {
+            while (countForce == 1) {
                 conditionForce.await();
             }
 
