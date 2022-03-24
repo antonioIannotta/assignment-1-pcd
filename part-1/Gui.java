@@ -2,7 +2,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -12,8 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Gui {
 
@@ -25,20 +25,41 @@ public class Gui {
 	private final JScrollPane scrollPane;
 
 
-	private final JButton startButton;
-	private final JButton pauseButton;
+	private JButton startButton = new JButton();
+	private JButton pauseButton = new JButton();
+	private JButton btnNewButton_1;
 
 
 	public Gui() {
+		this.startButton = startButton;
+		this.pauseButton = pauseButton;
 		this.frame = new JFrame("PCD Assignment 1");
 		setUpFrame();
 		this.panel = new JPanel();
 		setUpPanel();
 		this.scrollPane = new JScrollPane(panel);
 		setUpScrollPane();
-
-		this.startButton = addButton("Start");
-		this.pauseButton = addButton("Pause");
+		
+		JButton btnNewButton = new JButton("Stop");
+		btnNewButton.setBounds(302, 361, 83, 21);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		panel.setLayout(null);
+		panel.add(btnNewButton);
+		
+		btnNewButton_1 = new JButton("Start");
+		btnNewButton_1.setBounds(110, 361, 85, 21);
+		panel.add(btnNewButton_1);
+		
+		btnNewButton_1 = new JButton("Start");
+		btnNewButton_1.setBounds(106, 361, 85, 21);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
 
 		setUpButtons();
 
@@ -47,38 +68,20 @@ public class Gui {
 	}
 
 	private void setUpFrame() {
-		frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		frame.setSize(462, 537);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	private void setUpPanel() {
-		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 	}
 
 	private void setUpScrollPane() {
 		scrollPane.setPreferredSize(new Dimension(500, 500));
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 	}
 
 
 	private void setUpButtons() {
-		startButton.addActionListener(event -> {
-
-			try {
-				startButton.setEnabled(false);
-				compute();
-			} catch (Exception e) {
-			}
-
-		});
-
-		pauseButton.addActionListener(event -> {
-			try {
-				stop();
-			} catch (Exception e) {
-			}
-		});
 
 	}
 
@@ -122,10 +125,5 @@ public class Gui {
 		panel.add(component);
 	}
 
-	private JButton addButton(String buttonText) {
-		JButton button = new JButton(buttonText);
-		panel.add(button);
-		return button;
-	}
 
 }
