@@ -1,3 +1,5 @@
+import javafx.embed.swing.JFXPanel;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,6 +16,10 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Random;
+import java.util.*;
 
 public class Gui {
 
@@ -23,6 +29,7 @@ public class Gui {
 	private final JFrame frame;
 	private final JPanel panel;
 	private final JScrollPane scrollPane;
+	private final JPanel frameBodyViewer;
 
 
 	private JButton startButton = new JButton();
@@ -39,7 +46,12 @@ public class Gui {
 		setUpPanel();
 		this.scrollPane = new JScrollPane(panel);
 		setUpScrollPane();
-		
+		this.frameBodyViewer = new JPanel();
+		frameBodyViewer.setBounds(125,50,250,250);
+		frameBodyViewer.setBackground(Color.gray);
+		frameBodyViewer.setBorder(new LineBorder(Color.black,3));
+
+
 		JButton btnNewButton = new JButton("Stop");
 		btnNewButton.setBounds(302, 361, 83, 21);
 		btnNewButton.addActionListener(new ActionListener() {
@@ -48,18 +60,19 @@ public class Gui {
 		});
 		panel.setLayout(null);
 		panel.add(btnNewButton);
-		
+        panel.add(frameBodyViewer);
+
 		btnNewButton_1 = new JButton("Start");
 		btnNewButton_1.setBounds(110, 361, 85, 21);
 		panel.add(btnNewButton_1);
-		
+
 		btnNewButton_1 = new JButton("Start");
 		btnNewButton_1.setBounds(106, 361, 85, 21);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		
+
 
 		setUpButtons();
 
@@ -68,7 +81,7 @@ public class Gui {
 	}
 
 	private void setUpFrame() {
-		frame.setSize(462, 537);
+		frame.setSize(500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -86,7 +99,7 @@ public class Gui {
 	}
 
 	private void compute() {
-	//inserire codice per far partire simulaizone;
+		//inserire codice per far partire simulaizone;
 	}
 
 	private void stop() {
@@ -125,5 +138,6 @@ public class Gui {
 		panel.add(component);
 	}
 
-
 }
+
+
