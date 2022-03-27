@@ -47,7 +47,7 @@ public class Gui {
 		this.frameBodyViewer = new JPanel();
 
 		frameBodyViewer.setBounds(65, 50, 375, 250);
-		frameBodyViewer.setBackground(Color.gray);
+		frameBodyViewer.setBackground(Color.white);
 		frameBodyViewer.setBorder(new LineBorder(Color.black, 3));
 
 		JButton btnNewButton = new JButton("Stop");
