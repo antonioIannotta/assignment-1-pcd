@@ -63,12 +63,6 @@ public class Gui {
 		btnNewButton_1.setBounds(110, 361, 85, 21);
 		panel.add(btnNewButton_1);
 
-		btnNewButton_1 = new JButton("Start");
-		btnNewButton_1.setBounds(106, 361, 85, 21);
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 
 		setUpButtons();
 
