@@ -6,34 +6,38 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Monitor {
 
     private Boundary boundary;
-    private List<BodyThread> bodyThreads;
+    private List<Body> bodyList;
 
     private int countForce = 0;
     private int countBoundary = 0;
     private static final double REPULSIVE_CONST = 0.01;
 
-    private final Lock lock = new ReentrantLock();
-    private final Condition conditionForce = lock.newCondition();
-    private final Condition conditionBoundary = lock.newCondition();
+    //private final Lock lock = new ReentrantLock();
+    //private final Condition conditionForce = lock.newCondition();
+    //private final Condition conditionBoundary = lock.newCondition();
 
-    public Monitor(Boundary boundary, List<BodyThread> bodyThreads) {
+    public Monitor(Boundary boundary, List<Body> bodyList) {
         this.boundary = boundary;
-        this.bodyThreads = bodyThreads;
+        this.bodyList = bodyList;
     }
 
-    public V2d computeTotalForceOnBody(BodyThread bt) {
+    public synchronized V2d computeTotalForceOnBody(Body b) {
         V2d totalForce = new V2d(0, 0);
-        try {
             while (countForce == 1) {
-                conditionForce.await();
+                try{
+                    wait();
+                }catch(InterruptedException e){
+                    e.printStackTrace();
+                }
             }
+            countForce=1;
+            System.out.println("Start force");
 
-            countForce+=1;
-            for (int i = 0; i < this.bodyThreads.size(); i++) {
-                BodyThread other = bodyThreads.get(i);
-                if (!bt.equals(other)) {
+            for (int i = 0; i < this.bodyList.size(); i++) {
+                Body other = bodyList.get(i);
+                if (!b.equals(other)) {
                     try {
-                        V2d forceByOtherBody = this.computeRepulsiveForce(bt, other);
+                        V2d forceByOtherBody = this.computeRepulsiveForce(b, other);
                         totalForce.sum(forceByOtherBody);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -41,56 +45,61 @@ public class Monitor {
                 }
             }
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            lock.unlock();
-        }
+            totalForce.sum(b.getCurrentFrictionForce());
 
-        totalForce.sum(bt.getBody().getCurrentFrictionForce());
+            countForce=0;
+            System.out.println("Finish force");
+            notify();
+            //conditionForce.signalAll();
+
+        /*totalForce.sum(b.getCurrentFrictionForce());
         countForce--;
         conditionForce.signalAll();
+        System.out.println("Finish force");*/
         return totalForce;
     }
 
-    public void checkAndSolveBoundaryCollision(BodyThread bt) {
-        try {
+    public synchronized void checkAndSolveBoundaryCollision(Body b) {
+
             while (countBoundary == 1) {
-                conditionBoundary.await();
+                try{
+                    wait();
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
             }
+            System.out.println("Start boundary");
             countBoundary+=1;
-            double x = bt.getBody().getPos().getX();
-            double y = bt.getBody().getPos().getY();
+            double x = b.getPos().getX();
+            double y = b.getPos().getY();
             if (x > this.boundary.getX_1()) {
-                bt.getBody().getPos().change(this.boundary.getX_1(), bt.getBody().getPos().getY());
-                bt.getBody().getVel().change(-bt.getBody().getVel().getX(), bt.getBody().getVel().getY());
+                b.getPos().change(this.boundary.getX_1(), b.getPos().getY());
+                b.getVel().change(-b.getVel().getX(), b.getVel().getY());
             } else if (x < this.boundary.getX_0()) {
-                bt.getBody().getPos().change(this.boundary.getX_0(), bt.getBody().getPos().getY());
-                bt.getBody().getVel().change(-bt.getBody().getVel().getX(), bt.getBody().getVel().getY());
+                b.getPos().change(this.boundary.getX_0(), b.getPos().getY());
+                b.getVel().change(-b.getVel().getX(), b.getVel().getY());
             } else if (y > this.boundary.getY_1()) {
-                bt.getBody().getPos().change(bt.getBody().getPos().getX(), this.boundary.getY_1());
-                bt.getBody().getVel().change(bt.getBody().getVel().getX(), -bt.getBody().getVel().getY());
+                b.getPos().change(b.getPos().getX(), this.boundary.getY_1());
+                b.getVel().change(b.getVel().getX(), -b.getVel().getY());
             } else if (y < this.boundary.getY_0()) {
-                bt.getBody().getPos().change(bt.getBody().getPos().getX(), this.boundary.getY_0());
-                bt.getBody().getVel().change(bt.getBody().getVel().getX(), -bt.getBody().getVel().getY());
+                b.getPos().change(b.getPos().getX(), this.boundary.getY_0());
+                b.getVel().change(b.getVel().getX(), -b.getVel().getY());
             }
             countBoundary--;
-            conditionBoundary.signalAll();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            lock.unlock();
-        }
+            System.out.println("Finish Boundary");
+            notify();
+
+            //conditionBoundary.signalAll();
 
     }
 
-    private V2d computeRepulsiveForce(BodyThread bt1, BodyThread bt2) throws InfiniteForceException {
-        double distance = bt1.getBody().getDistanceFrom(bt2.getBody());
+    private V2d computeRepulsiveForce(Body b1, Body b2) throws InfiniteForceException {
+        double distance = b1.getDistanceFrom(b2);
         if (distance > 0) {
             try {
-                return new V2d(bt2.getBody().getPos(), bt1.getBody().getPos())
+                return new V2d(b2.getPos(), b1.getPos())
                         .normalize()
-                        .scalarMul(bt2.getBody().getMass() * REPULSIVE_CONST / (distance * distance));
+                        .scalarMul(b2.getMass() * REPULSIVE_CONST / (distance * distance));
             } catch (Exception e) {
                 throw new InfiniteForceException();
             }

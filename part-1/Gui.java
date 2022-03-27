@@ -1,4 +1,4 @@
-import javafx.embed.swing.JFXPanel;
+//import javafx.embed.swing.JFXPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -31,11 +31,9 @@ public class Gui {
 	private final JScrollPane scrollPane;
 	private final JPanel frameBodyViewer;
 
-
 	private JButton startButton = new JButton();
 	private JButton pauseButton = new JButton();
 	private JButton btnNewButton_1;
-
 
 	public Gui() {
 		this.startButton = startButton;
@@ -47,10 +45,9 @@ public class Gui {
 		this.scrollPane = new JScrollPane(panel);
 		setUpScrollPane();
 		this.frameBodyViewer = new JPanel();
-		frameBodyViewer.setBounds(125,50,250,250);
+		frameBodyViewer.setBounds(125, 50, 250, 250);
 		frameBodyViewer.setBackground(Color.gray);
-		frameBodyViewer.setBorder(new LineBorder(Color.black,3));
-
+		frameBodyViewer.setBorder(new LineBorder(Color.black, 3));
 
 		JButton btnNewButton = new JButton("Stop");
 		btnNewButton.setBounds(302, 361, 83, 21);
@@ -60,7 +57,7 @@ public class Gui {
 		});
 		panel.setLayout(null);
 		panel.add(btnNewButton);
-        panel.add(frameBodyViewer);
+		panel.add(frameBodyViewer);
 
 		btnNewButton_1 = new JButton("Start");
 		btnNewButton_1.setBounds(110, 361, 85, 21);
@@ -72,7 +69,6 @@ public class Gui {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-
 
 		setUpButtons();
 
@@ -93,19 +89,17 @@ public class Gui {
 		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 	}
 
-
 	private void setUpButtons() {
 
 	}
 
 	private void compute() {
-		//inserire codice per far partire simulaizone;
+		// inserire codice per far partire simulaizone;
 	}
 
 	private void stop() {
-		//inserire codice per fermare simulazione;
+		// inserire codice per fermare simulazione;
 	}
-
 
 	private JTextArea addTextAreaWithLabel(String labelText) {
 		JTextArea textArea = new JTextArea(5, 20);
@@ -139,5 +133,3 @@ public class Gui {
 	}
 
 }
-
-
