@@ -45,7 +45,8 @@ public class Gui {
 		this.scrollPane = new JScrollPane(panel);
 		setUpScrollPane();
 		this.frameBodyViewer = new JPanel();
-		frameBodyViewer.setBounds(125, 50, 250, 250);
+
+		frameBodyViewer.setBounds(65, 50, 375, 250);
 		frameBodyViewer.setBackground(Color.gray);
 		frameBodyViewer.setBorder(new LineBorder(Color.black, 3));
 
