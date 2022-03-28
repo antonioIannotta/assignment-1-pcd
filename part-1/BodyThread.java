@@ -18,9 +18,19 @@ public class BodyThread extends Thread {
         if (n == 0) {
             this.body.updateVelocity(monitor.computeTotalForceOnBody(this.body), 1.0);
             // 1.0 è un valore provvisorio
+            try{
+                sleep(100);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             monitor.checkAndSolveBoundaryCollision(this.body);
         } else {
             monitor.checkAndSolveBoundaryCollision(this.body);
+            try{
+                sleep(100);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             this.body.updateVelocity(monitor.computeTotalForceOnBody(this.body), 1.0);
         }
 
