@@ -54,6 +54,7 @@ public class Gui {
 		btnNewButton.setBounds(302, 361, 83, 21);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("addio");
 			}
 		});
 		panel.setLayout(null);
@@ -62,8 +63,9 @@ public class Gui {
 
 		btnNewButton_1 = new JButton("Start");
 		btnNewButton_1.setBounds(110, 361, 85, 21);
-		btnNewButton.addActionListener(new ActionListener() {
+		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("ciao");
 			}
 		});
 		panel.add(btnNewButton_1);
