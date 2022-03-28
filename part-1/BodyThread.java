@@ -16,6 +16,7 @@ public class BodyThread extends Thread {
         int n = rand.nextInt(2);
 
         if (n == 0) {
+            while(true){
             this.body.updateVelocity(monitor.computeTotalForceOnBody(this.body), 1.0);
             // 1.0 è un valore provvisorio
             try{
@@ -24,7 +25,9 @@ public class BodyThread extends Thread {
                 e.printStackTrace();
             }
             monitor.checkAndSolveBoundaryCollision(this.body);
+            }
         } else {
+            while(true){
             monitor.checkAndSolveBoundaryCollision(this.body);
             try{
                 sleep(100);
@@ -32,6 +35,7 @@ public class BodyThread extends Thread {
                 e.printStackTrace();
             }
             this.body.updateVelocity(monitor.computeTotalForceOnBody(this.body), 1.0);
+        }
         }
 
     }
