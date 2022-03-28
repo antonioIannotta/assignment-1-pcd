@@ -31,7 +31,7 @@ public class Monitor {
                 }
             }
             countForce=1;
-            System.out.println("Start force");
+            System.out.println("Start force for ID " + b.getId());
 
             for (int i = 0; i < this.bodyList.size(); i++) {
                 Body other = bodyList.get(i);
@@ -48,7 +48,7 @@ public class Monitor {
             totalForce.sum(b.getCurrentFrictionForce());
 
             countForce=0;
-            System.out.println("Finish force");
+            System.out.println("Finish force for ID " + b.getId());
             notify();
             //conditionForce.signalAll();
 
@@ -68,7 +68,7 @@ public class Monitor {
                     e.printStackTrace();
                 }
             }
-            System.out.println("Start boundary");
+            System.out.println("Start boundary for ID " + b.getId());
             countBoundary+=1;
             double x = b.getPos().getX();
             double y = b.getPos().getY();
@@ -86,7 +86,7 @@ public class Monitor {
                 b.getVel().change(b.getVel().getX(), -b.getVel().getY());
             }
             countBoundary--;
-            System.out.println("Finish Boundary");
+            System.out.println("Finish Boundary for ID " + b.getId());
             notify();
 
             //conditionBoundary.signalAll();
