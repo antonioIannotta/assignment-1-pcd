@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
 
 public class SimulationController {
 
@@ -7,6 +8,8 @@ public class SimulationController {
     ArrayList<Body> bodies;
     private Boundary bounds;
     ArrayList<BodyThread> bodyThreads = new ArrayList<>();
+
+    private ExecutorService executorService;
 
 
     /* virtual time */
@@ -16,9 +19,10 @@ public class SimulationController {
     double dt;
     private int nBodies;
 
-    public SimulationController(int nBodies) {
+    public SimulationController(int nBodies, ExecutorService executorService) {
         this.nBodies = nBodies;
         this.running = true;
+        this.executorService = executorService;
 
         testBodySet_multiple_bodies(nBodies);
 
@@ -37,15 +41,13 @@ public class SimulationController {
                         try {
                             for (Body b : bodies) {
                                 BodyThread bt = new BodyThread(monitor, b, barrier);
-                                bodyThreads.add(bt);
+                                executorService.submit(bt);
                             }
-                            for (BodyThread bt : bodyThreads) bt.start();
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
                         try {
                             barrier.hitAndWaitAll();
-                            bodyThreads = new ArrayList<>();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -66,26 +68,21 @@ public class SimulationController {
         for (int i = 0; i < nBodies; i++) {
             double x = bounds.getX0()*0.25 + rand.nextDouble() * (bounds.getX1() - bounds.getX0()) * 0.25;
             double y = bounds.getY0()*0.25 + rand.nextDouble() * (bounds.getY1() - bounds.getY0()) * 0.25;
-            Body b = new Body(i, new P2d(x, y), new V2d(0, 0), randMass.nextDouble()*10);
+            Body b = new Body(i, new P2d(x, y), new V2d(0, 0), randMass.nextDouble()*10.0);
             bodies.add(b);
         }
     }
 
     public void changeRunning(){
 
-        new Thread(() -> {
-            this.running = !running;
-            System.out.println(this.running? "Simulation restarted": "Simulation has been paused");
-        }).start();
-
-        /*try {
+        try {
             executorService.execute(()->{
                 this.running = !running;
                 System.out.println(this.running? "Simulation restarted": "Simulation has been paused");
             });
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
 
     }
 

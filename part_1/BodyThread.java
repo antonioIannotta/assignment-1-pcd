@@ -11,14 +11,16 @@ public class BodyThread extends Thread {
     }
 
     public void run() {
-            // 1.0 è un valore provvisorio
-            this.body.updateVelocity(new V2d(monitor.computeTotalForceOnBody(this.body).scalarMul(1/ body.getMass())), 0.001);
+        // 1.0 è un valore provvisorio
+        V2d vel = monitor.computeTotalForceOnBody(this.body);
+        V2d acc = new V2d(vel.scalarMul(1/ body.getMass()));
+        this.body.updateVelocity(acc , 0.001);
 
-            //System.out.println(this.body.getVel().getX() + " " + this.body.getVel().getY());
+        //System.out.println(this.body.getVel().getX() + " " + this.body.getVel().getY());
 
-            this.body.updatePos(0.001);
+        this.body.updatePos(0.001);
 
-            monitor.checkAndSolveBoundaryCollision(this.body);
+        monitor.checkAndSolveBoundaryCollision(this.body);
         try {
             barrier.hitAndWaitAll();
         } catch (InterruptedException e) {

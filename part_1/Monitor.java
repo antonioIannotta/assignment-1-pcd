@@ -96,7 +96,7 @@ public class Monitor {
                 throw new InfiniteForceException();
             }
         } else {
-            throw new InfiniteForceException();
+            return new V2d(1.0,1.0);
         }
     }
 
