@@ -9,6 +9,8 @@ public class SimulationView extends JFrame implements ActionListener,KeyListener
 
     private VisualiserPanel panel;
 
+    private JButton button;
+
     public SimulationView(SimulationController controller, int w, int h) {
         super("My View");
         setSize(w,h);
@@ -22,12 +24,12 @@ public class SimulationView extends JFrame implements ActionListener,KeyListener
         this.controller = controller;
         panel = new VisualiserPanel(w,h);
 
-        JButton button1 = new JButton("Start");
-        button1.addActionListener(this);
-        button1.addKeyListener(this);
+        button = new JButton("Stop");
+        button.addActionListener(this);
+        button.addKeyListener(this);
         panel.addKeyListener(this);
 
-        p.add(button1,BorderLayout.NORTH);
+        p.add(button,BorderLayout.NORTH);
         p.add(panel);
 
         addWindowListener(new WindowAdapter(){
@@ -47,12 +49,15 @@ public class SimulationView extends JFrame implements ActionListener,KeyListener
                 panel.display(bodies, vt, iter, bounds);
                 repaint();
             });
-        } catch (Exception ex) {}
-    };
+        } catch (Exception ignored) {}
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        try {
+            this.button.setText(controller.isRunning() ? "Start" : "Stop");
+            controller.changeRunning();
+        } catch (Exception ignored) {}
     }
 
     @Override

@@ -6,7 +6,8 @@ public class ParallelBodySimulationMain {
         SimulationController controller = new SimulationController(100);
         SimulationView viewer = new SimulationView(controller, 600,600);
 
-        controller.execute(50000, viewer);
+        new Thread(()-> controller.execute(50000, viewer)).start();
+
 
     }
 }
