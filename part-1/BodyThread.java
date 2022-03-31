@@ -16,26 +16,27 @@ public class BodyThread extends Thread {
         int n = rand.nextInt(2);
 
         if (n == 0) {
-            while(true){
-            this.body.updateVelocity(monitor.computeTotalForceOnBody(this.body), 1.0);
+            this.body.updateVelocity(monitor.computeTotalForceOnBody(this.body), 0.01);
+            this.body.updatePos(1);
             // 1.0 è un valore provvisorio
-            try{
+            /*try{
                 sleep(100);
             }catch(Exception e){
                 e.printStackTrace();
-            }
+            }*/
             monitor.checkAndSolveBoundaryCollision(this.body);
-            }
+            this.body.updatePos(1);
         } else {
-            while(true){
             monitor.checkAndSolveBoundaryCollision(this.body);
-            try{
+            this.body.updatePos(1);
+            /*try{
                 sleep(100);
             }catch(Exception e){
                 e.printStackTrace();
-            }
-            this.body.updateVelocity(monitor.computeTotalForceOnBody(this.body), 1.0);
-        }
+            }*/
+            this.body.updateVelocity(monitor.computeTotalForceOnBody(this.body), 0.01);
+            this.body.updatePos(1);
+
         }
 
     }

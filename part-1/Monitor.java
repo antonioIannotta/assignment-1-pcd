@@ -12,10 +12,6 @@ public class Monitor {
     private int countBoundary = 0;
     private static final double REPULSIVE_CONST = 0.01;
 
-    //private final Lock lock = new ReentrantLock();
-    //private final Condition conditionForce = lock.newCondition();
-    //private final Condition conditionBoundary = lock.newCondition();
-
     public Monitor(Boundary boundary, List<Body> bodyList) {
         this.boundary = boundary;
         this.bodyList = bodyList;
@@ -31,7 +27,7 @@ public class Monitor {
                 }
             }
             countForce=1;
-            System.out.println("Start force for ID " + b.getId());
+            //System.out.println("Start force for ID " + b.getId());
 
             for (int i = 0; i < this.bodyList.size(); i++) {
                 Body other = bodyList.get(i);
@@ -48,15 +44,9 @@ public class Monitor {
             totalForce.sum(b.getCurrentFrictionForce());
 
             countForce=0;
-            System.out.println("Finish force for ID " + b.getId());
+            //System.out.println("Finish force for ID " + b.getId());
             notify();
-            //conditionForce.signalAll();
-
-        /*totalForce.sum(b.getCurrentFrictionForce());
-        countForce--;
-        conditionForce.signalAll();
-        System.out.println("Finish force");*/
-        return totalForce;
+            return totalForce;
     }
 
     public synchronized void checkAndSolveBoundaryCollision(Body b) {
@@ -68,7 +58,7 @@ public class Monitor {
                     e.printStackTrace();
                 }
             }
-            System.out.println("Start boundary for ID " + b.getId());
+            //System.out.println("Start boundary for ID " + b.getId());
             countBoundary+=1;
             double x = b.getPos().getX();
             double y = b.getPos().getY();
@@ -86,16 +76,14 @@ public class Monitor {
                 b.getVel().change(b.getVel().getX(), -b.getVel().getY());
             }
             countBoundary--;
-            System.out.println("Finish Boundary for ID " + b.getId());
+            //System.out.println("Finish Boundary for ID " + b.getId());
             notify();
-
-            //conditionBoundary.signalAll();
 
     }
 
     private V2d computeRepulsiveForce(Body b1, Body b2) throws InfiniteForceException {
         double distance = b1.getDistanceFrom(b2);
-        if (distance > 0) {
+        if (distance >= 0) {
             try {
                 return new V2d(b2.getPos(), b1.getPos())
                         .normalize()

@@ -38,6 +38,10 @@ public class Body {
         return new V2d(this.getVel()).scalarMul(-FRICTION_CONST);
     }
 
+    public void updatePos(double dt){
+        this.getPos().sum(new V2d(this.getVel()).scalarMul(dt));
+    }
+
     public double getDistanceFrom(Body b2) {
         double dx = this.pos.getX() - b2.getPos().getX();
         double dy = this.pos.getY() - b2.getPos().getY();
