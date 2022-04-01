@@ -5,7 +5,7 @@ public class ParallelBodySimulationMain {
 
     public static void main(String[] args) {
 
-        int nBodies = 1000;
+        int nBodies = 5000;
 
         ExecutorService executorService = Executors.newFixedThreadPool(nBodies+ 4);
 
@@ -14,7 +14,7 @@ public class ParallelBodySimulationMain {
 
         executorService.execute(()-> {
             long start = System.currentTimeMillis();
-            controller.execute(50000, viewer);
+            controller.execute(1000, viewer);
             long stop = System.currentTimeMillis() - start;
             System.out.println("Tempo di esecuzione con tot corpi: " + stop + " millisecondi");
         });

@@ -69,7 +69,7 @@ public class SimulationController {
         for (int i = 0; i < nBodies; i++) {
             double x = bounds.getX0()*0.25 + rand.nextDouble() * (bounds.getX1() - bounds.getX0()) * 0.25;
             double y = bounds.getY0()*0.25 + rand.nextDouble() * (bounds.getY1() - bounds.getY0()) * 0.25;
-            Body b = new Body(i, new P2d(x, y), new V2d(0, 0), randMass.nextDouble()*10.0);
+            Body b = new Body(i, new P2d(x, y), new V2d(0, 0), 1+(randMass.nextDouble()*9.0));
             bodies.add(b);
         }
     }
