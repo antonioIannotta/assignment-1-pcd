@@ -47,6 +47,9 @@ public class Body {
     public double getDistanceFrom(Body b2) {
         double dx = this.pos.getX() - b2.getPos().getX();
         double dy = this.pos.getY() - b2.getPos().getY();
+        if((dx * dx + dy * dy) < 0){
+            System.out.println("Error!" + dx + " " + dy);
+        }
         return Math.sqrt(dx * dx + dy * dy);
     }
 }

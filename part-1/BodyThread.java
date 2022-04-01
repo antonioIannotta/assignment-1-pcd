@@ -19,6 +19,7 @@ public class BodyThread extends Thread {
             this.body.updatePos(0.001);
 
             monitor.checkAndSolveBoundaryCollision(this.body);
+            this.body.updatePos(0.001);
         try {
             barrier.hitAndWaitAll();
         } catch (InterruptedException e) {
