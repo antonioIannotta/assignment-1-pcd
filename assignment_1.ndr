@@ -1,0 +1,23 @@
+p 320.0 50.0 body 1 n
+t 185.0 480.0 t2 0 w n
+p 190.0 370.0 {updated velocity} 0 w
+t 460.0 480.0 t3 0 w n
+p 460.0 365.0 {checked boundary} 0 e
+t 190.0 240.0 t0 c 0 w n access ne
+t 455.0 240.0 t1 c 0 w n access ne
+p 325.0 245.0 monitor 1 n
+e t3 0.9976364865 202.022276 body 0.9896988107 324.6798423 1 n
+e t3 monitor 1 n
+e t2 0.5027596357 173.0260096 body 0.5138768729 287.090578 1 n
+e t2 monitor 1 n
+e {checked boundary} t3 1 n
+e t1 {checked boundary} 1 n
+e {updated velocity} t2 1 n
+e t0 {updated velocity} 1 n
+e body t1 1 n
+e monitor t1 1 n
+e body t0 1 n
+e monitor t0 1 n
+h buffer
+
+
