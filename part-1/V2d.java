@@ -30,7 +30,7 @@ public class V2d {
     }
 
     public V2d normalize() throws NullVectorException{
-        double mod = Math.sqrt((this.getX() * this.getX()) + (this.getY() * this.getY()));
+        double mod =  Math.sqrt(x*x + y*y);
         if(mod >= 0){
             this.x /= mod;
             this.y /= mod;

@@ -11,19 +11,19 @@ public class Boundary {
         this.x_1= x_1;
     }
 
-    public double getX_1(){
+    public double getX1(){
         return this.x_1;
     }
 
-    public double getX_0(){
+    public double getX0(){
         return this.x_0;
     }
 
-    public double getY_0(){
+    public double getY0(){
         return this.y_0;
     }
 
-    public double getY_1(){
+    public double getY1(){
         return this.y_1;
     }
 }

@@ -1,42 +1,29 @@
-import java.util.Random;
-
 public class BodyThread extends Thread {
 
     private Monitor monitor;
     private Body body;
+    private Barrier barrier;
 
-    public BodyThread(Monitor monitor, Body body) {
+    public BodyThread(Monitor monitor, Body body, Barrier barrier) {
         this.monitor = monitor;
         this.body = body;
+        this.barrier = barrier;
     }
 
     public void run() {
-
-        Random rand = new Random();
-        int n = rand.nextInt(2);
-
-        if (n == 0) {
-            this.body.updateVelocity(monitor.computeTotalForceOnBody(this.body), 0.01);
-            this.body.updatePos(1);
             // 1.0 è un valore provvisorio
-            /*try{
-                sleep(100);
-            }catch(Exception e){
-                e.printStackTrace();
-            }*/
-            monitor.checkAndSolveBoundaryCollision(this.body);
-            this.body.updatePos(1);
-        } else {
-            monitor.checkAndSolveBoundaryCollision(this.body);
-            this.body.updatePos(1);
-            /*try{
-                sleep(100);
-            }catch(Exception e){
-                e.printStackTrace();
-            }*/
-            this.body.updateVelocity(monitor.computeTotalForceOnBody(this.body), 0.01);
-            this.body.updatePos(1);
+            this.body.updateVelocity(new V2d(monitor.computeTotalForceOnBody(this.body).scalarMul(1/ body.getMass())), 0.001);
 
+            //System.out.println(this.body.getVel().getX() + " " + this.body.getVel().getY());
+
+            this.body.updatePos(0.001);
+
+            monitor.checkAndSolveBoundaryCollision(this.body);
+            this.body.updatePos(0.001);
+        try {
+            barrier.hitAndWaitAll();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
     }
@@ -44,5 +31,4 @@ public class BodyThread extends Thread {
     public Body getBody() {
         return this.body;
     }
-
 }

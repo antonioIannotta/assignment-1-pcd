@@ -5,7 +5,7 @@ public class Body {
     private double mass;
     private int id;
 
-    private static final double FRICTION_CONST = 1;
+    private static final double FRICTION_CONST = 0.1;
 
     public Body(int id, P2d pos, V2d vel, double mass) {
         this.id = id;
@@ -30,22 +30,26 @@ public class Body {
         return this.pos;
     }
 
+    public void updatePos(double dt){
+        //System.out.println("Old pos:" + this.pos.getX() + ", " + this.pos.getY());
+        pos.sum(new V2d(vel).scalarMul(dt));
+        //System.out.println("New pos:" + this.pos.getX() + ", " + this.pos.getY());
+    }
+
     public void updateVelocity(V2d acc, double dt) {
-        vel.sum(new V2d(acc).scalarMul(dt));
+        this.vel = vel.sum(new V2d(acc).scalarMul(dt));
     }
 
     public V2d getCurrentFrictionForce() {
         return new V2d(this.getVel()).scalarMul(-FRICTION_CONST);
     }
 
-    public void updatePos(double dt){
-        this.getPos().sum(new V2d(this.getVel()).scalarMul(dt));
-    }
-
     public double getDistanceFrom(Body b2) {
         double dx = this.pos.getX() - b2.getPos().getX();
         double dy = this.pos.getY() - b2.getPos().getY();
-
+        if((dx * dx + dy * dy) < 0){
+            System.out.println("Error!" + dx + " " + dy);
+        }
         return Math.sqrt(dx * dx + dy * dy);
     }
 }
