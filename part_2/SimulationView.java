@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class SimulationView extends JFrame implements ActionListener,KeyListener {
@@ -108,6 +109,7 @@ public class SimulationView extends JFrame implements ActionListener,KeyListener
                 int ht = y0 - getYcoord(bounds.getY1());
 
                 g2.drawRect(x0, y0 - ht, wd, ht);
+                DecimalFormat df = new DecimalFormat("#.#");
 
                 bodies.forEach( b -> {
                     P2d p = b.getPos();
@@ -116,6 +118,7 @@ public class SimulationView extends JFrame implements ActionListener,KeyListener
                         radius = 1;
                     }
                     g2.drawOval(getXcoord(p.getX()),getYcoord(p.getY()), radius, radius);
+                    g2.drawString(df.format(b.getMass()),getXcoord(p.getX())+(radius/2),getYcoord(p.getY())+(radius/2));
                 });
                 String time = String.format("%.2f", vt);
                 g2.drawString("Bodies: " + bodies.size() + " - vt: " + time + " - nIter: " + nIter + " (UP for zoom in, DOWN for zoom out)", 2, 20);
