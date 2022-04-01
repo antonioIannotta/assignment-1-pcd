@@ -12,7 +12,12 @@ public class ParallelBodySimulationMain {
         SimulationController controller = new SimulationController(nBodies, executorService);
         SimulationView viewer = new SimulationView(controller, 600,600);
 
-        executorService.execute(()-> controller.execute(50000, viewer));
+        executorService.execute(()-> {
+            long start = System.currentTimeMillis();
+            controller.execute(50000, viewer);
+            long stop = System.currentTimeMillis() - start;
+            System.out.println("Tempo di esecuzione con tot corpi: " + stop + " millisecondi");
+        });
 
     }
 }

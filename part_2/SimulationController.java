@@ -56,6 +56,7 @@ public class SimulationController {
                         viewer.display(bodies, vt, iter, bounds);
                     }
                     Thread.sleep(1);
+                    if(iter == nSteps) break;
                 }
             } catch (Exception ignored) {}
         }
